@@ -12,6 +12,8 @@ const saveBtn = document.querySelector(".save");
 const cancelBtn = document.querySelector(".cancel");
 const deleteBtn = document.querySelector(".delete");
 const deleteAllBtn = document.querySelector(".delete-all");
+const lightStyleBtn = document.querySelector(".light");
+const darkStyleBtn = document.querySelector(".dark");
 
 let root = document.documentElement;
 let ID = 0;
@@ -104,17 +106,27 @@ const checkCategory = transaction => {
 // funkcja zliczająca dostępne środki
 const countMoney = money => {
 	const newMoney = money.reduce((a, b) => a + b);
+	console.log(newMoney);
+	console.log(typeof newMoney);
 	availableMoney.textContent = `${newMoney}zł`;
-	console.log(moneyArr);
+	console.log(availableMoney.textContent);
+	console.log(typeof availableMoney.textContent);
+	console.log("---------------");
 };
 
 // funkcja usuwająca pojedynczą transakcję
 const deleteTransaction = id => {
 	const transactionToDelete = document.getElementById(id);
+	console.log(transactionToDelete);
 	const transactionAmount = parseFloat(
 		transactionToDelete.childNodes[3].innerText
 	);
+	console.log(transactionToDelete.childNodes);
+	console.log(transactionToDelete.childNodes[3]);
+	console.log(transactionToDelete.childNodes[3].innerText);
+	console.log(transactionAmount);
 	const indexOfTransaction = moneyArr.indexOf(transactionAmount);
+	console.log(indexOfTransaction);
 
 	moneyArr.splice(indexOfTransaction, 1);
 
@@ -125,6 +137,31 @@ const deleteTransaction = id => {
 	countMoney(moneyArr);
 };
 
+// funkcja usuwająca wszystkie transakcje
+const deleteAllTransactions = () => {
+	incomeSection.innerHTML = "<h3>Przychód:</h3>";
+	expensesSection.innerHTML = "<h3>Wydatki:</h3>";
+	availableMoney.textContent = "0zł";
+	moneyArr = [0];
+};
+
+// funkcja zmieniająca styl na jasny
+const changeStyleToLight = () => {
+	root.style.setProperty("--first-color", "#f9f9f9");
+	root.style.setProperty("--second-color", "#14161f");
+	root.style.setProperty("--border-color", "rgba(0, 0, 0, 0.2)");
+};
+
+// funkcja zmieniająca styl na ciemny
+const changeStyleToDark = () => {
+	root.style.setProperty("--first-color", "#14161f");
+	root.style.setProperty("--second-color", "#f9f9f9");
+	root.style.setProperty("--border-color", "rgba(255, 255, 255, 0.4)");
+};
+
 addTransactionBtn.addEventListener("click", showPanel);
 cancelBtn.addEventListener("click", closePanel);
 saveBtn.addEventListener("click", checkForm);
+deleteAllBtn.addEventListener("click", deleteAllTransactions);
+lightStyleBtn.addEventListener("click", changeStyleToLight);
+darkStyleBtn.addEventListener("click", changeStyleToDark);
