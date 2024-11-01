@@ -31,13 +31,13 @@ const closePanel = () => {
 };
 
 // funkcja sprawdzająca wypełnienie formularza
-const checpForm = () => {
+const checkForm = () => {
 	if (
 		nameInput.value !== "" &&
 		amountInput.value !== "" &&
 		categorySelect.value !== "none"
 	) {
-		console.log("ok");
+		createNewTransaction();
 	} else {
 		alert("Wypełnij wszystkie pola!");
 	}
@@ -50,6 +50,55 @@ const clearInputs = () => {
 	categorySelect.selectedIndex = 0;
 };
 
+// funkcja dodająca transakcję
+const createNewTransaction = () => {
+	const newTransaction = document.createElement("div");
+	newTransaction.classList.add("transaction");
+	newTransaction.setAttribute("id", ID);
+
+	checkCategory(selectedCategory);
+
+	newTransaction.innerHTML = `
+    <p class="transaction-name">${categoryIcon} ${nameInput.value}</p>
+    <p class="transaction-amount">${amountInput.value}zł 
+    <button class="delete" onclick="deleteTransaction(${ID})"><i class="fa-solid fa-xmark"></i></button></p>
+    `;
+
+	amountInput.value > 0
+		? incomeSection.appendChild(newTransaction) &&
+		  newTransaction.classList.add("income")
+		: expensesSection.appendChild(newTransaction) &&
+		  newTransaction.classList.add("expense");
+	moneyArr.push(parseFloat(amountInput.value));
+
+	closePanel();
+	ID++;
+	clearInputs();
+};
+
+// funkcja przypisująca do zmiennej wybraną kategorię
+const selectCategory = () => {
+	selectedCategory = categorySelect.options[categorySelect.selectedIndex].text;
+};
+
+// funkcja sprawdzająca kategorię transakcji + dobór ikon
+const checkCategory = transaction => {
+	switch (transaction) {
+		case "[ + ] Przychód":
+			categoryIcon = `<i class="fa-solid fa-money-bill-wave"></i>`;
+			break;
+		case "[ - ] Zakupy":
+			categoryIcon = `<i class="fa-solid fa-cart-arrow-down"></i>`;
+			break;
+		case "[ - ] Jedzenie":
+			categoryIcon = `<i class="fa-solid fa-burger"></i>`;
+			break;
+		case "[ - ] Kino":
+			categoryIcon = `<i class="fa-solid fa-film"></i>`;
+			break;
+	}
+};
+
 addTransactionBtn.addEventListener("click", showPanel);
 cancelBtn.addEventListener("click", closePanel);
-saveBtn.addEventListener("click", checpForm);
+saveBtn.addEventListener("click", checkForm);
