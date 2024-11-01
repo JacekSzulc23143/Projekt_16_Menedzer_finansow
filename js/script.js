@@ -70,7 +70,7 @@ const createNewTransaction = () => {
 		: expensesSection.appendChild(newTransaction) &&
 		  newTransaction.classList.add("expense");
 	moneyArr.push(parseFloat(amountInput.value));
-
+	countMoney(moneyArr);
 	closePanel();
 	ID++;
 	clearInputs();
@@ -97,6 +97,13 @@ const checkCategory = transaction => {
 			categoryIcon = `<i class="fa-solid fa-film"></i>`;
 			break;
 	}
+};
+
+// funkcja zliczająca dostępne środki
+const countMoney = money => {
+	const newMoney = money.reduce((a, b) => a + b);
+	availableMoney.textContent = `${newMoney}zł`;
+	console.log(moneyArr);
 };
 
 addTransactionBtn.addEventListener("click", showPanel);
