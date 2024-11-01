@@ -18,3 +18,38 @@ let ID = 0;
 let categoryIcon;
 let selectedCategory;
 let moneyArr = [0];
+
+// funkcja pokazująca panel
+const showPanel = () => {
+	addTransactionPanel.style.display = "flex";
+};
+
+// funkcja chowająca panel
+const closePanel = () => {
+	addTransactionPanel.style.display = "none";
+	clearInputs();
+};
+
+// funkcja sprawdzająca wypełnienie formularza
+const checpForm = () => {
+	if (
+		nameInput.value !== "" &&
+		amountInput.value !== "" &&
+		categorySelect.value !== "none"
+	) {
+		console.log("ok");
+	} else {
+		alert("Wypełnij wszystkie pola!");
+	}
+};
+
+// funkcja czyszcząca formularz
+const clearInputs = () => {
+	nameInput.value = "";
+	amountInput.value = "";
+	categorySelect.selectedIndex = 0;
+};
+
+addTransactionBtn.addEventListener("click", showPanel);
+cancelBtn.addEventListener("click", closePanel);
+saveBtn.addEventListener("click", checpForm);
