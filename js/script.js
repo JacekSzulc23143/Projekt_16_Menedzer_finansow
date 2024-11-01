@@ -18,6 +18,7 @@ let ID = 0;
 let categoryIcon;
 let selectedCategory;
 let moneyArr = [0];
+console.log(moneyArr);
 
 // funkcja pokazująca panel
 const showPanel = () => {
@@ -69,6 +70,7 @@ const createNewTransaction = () => {
 		  newTransaction.classList.add("income")
 		: expensesSection.appendChild(newTransaction) &&
 		  newTransaction.classList.add("expense");
+
 	moneyArr.push(parseFloat(amountInput.value));
 	countMoney(moneyArr);
 	closePanel();
@@ -104,6 +106,23 @@ const countMoney = money => {
 	const newMoney = money.reduce((a, b) => a + b);
 	availableMoney.textContent = `${newMoney}zł`;
 	console.log(moneyArr);
+};
+
+// funkcja usuwająca pojedynczą transakcję
+const deleteTransaction = id => {
+	const transactionToDelete = document.getElementById(id);
+	const transactionAmount = parseFloat(
+		transactionToDelete.childNodes[3].innerText
+	);
+	const indexOfTransaction = moneyArr.indexOf(transactionAmount);
+
+	moneyArr.splice(indexOfTransaction, 1);
+
+	transactionToDelete.classList.contains("income")
+		? incomeSection.removeChild(transactionToDelete)
+		: expensesSection.removeChild(transactionToDelete);
+
+	countMoney(moneyArr);
 };
 
 addTransactionBtn.addEventListener("click", showPanel);
